@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Dashboard | Stackly Digital</title>
+  <meta name="description" content="Stackly agency dashboard with dedicated role views for Client Partners and Agency Administrators.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="assets/css/style.css?v=37" rel="stylesheet">
+</head>
+<body class="">
+
+<!-- Unified Top Navigation Bar -->
+<header class="dash-top">
+  <div class="d-flex align-items-center gap-3">
+    <!-- Hamburger (mobile only) -->
+    <button class="dash-burger d-lg-none" id="dashBurger" aria-label="Open menu" type="button">
+      <i class="bi bi-list"></i>
+    </button>
+
+    <a href="index.html" class="brand">
+      <img class="brand-logo" src="logo_green.webp?v=33" alt="Stackly">
+    </a>
+  </div>
+
+  <div class="d-flex align-items-center gap-2 gap-md-3 ms-auto">
+    <!-- User Profile Chip -->
+    <div class="dash-user">
+      <div class="adm-avatar-wrap">
+        <img class="adm-avatar" src="images/photo-1560250097-0b93528c311a.webp" alt="User Profile" onerror="this.onerror=null;this.src='images/1560250097-0b93528c311a.webp';">
+        <span class="dot"></span>
+      </div>
+      <div class="d-none d-sm-block text-start lh-1">
+        <div class="uemail" style="font-size:0.78rem;color:rgba(255,255,255,.85);font-weight:700">rhea@voltrix.io</div>
+        <small class="urole text-muted" style="font-size:0.7rem">Client Partner</small>
+      </div>
+      <a href="#" class="btn btn-sm btn-outline-danger ms-2 d-none d-md-inline-block" onclick="localStorage.removeItem('stackly_user');location.href='login.html';return false" title="Logout">
+        <i class="bi bi-box-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- ================================================================ -->
+<!-- MOBILE DRAWER OVERLAY (Full-screen, like main site hamburger)     -->
+<!-- ================================================================ -->
+<div id="dashDrawer" class="dash-drawer" aria-hidden="true">
+  <!-- Drawer Header -->
+  <div class="dash-drawer-header">
+    <a href="index.html" class="brand">
+      <img class="brand-logo" src="logo_green.webp?v=33" alt="Stackly">
+    </a>
+    <button class="dash-drawer-close" id="dashDrawerClose" aria-label="Close menu" type="button">
+      <i class="bi bi-x-lg"></i>
+    </button>
+  </div>
+
+  <!-- User info strip -->
+  <div class="dash-drawer-user">
+    <img src="images/photo-1560250097-0b93528c311a.webp" alt="User" class="dash-drawer-avatar">
+    <div>
+      <div class="dash-drawer-subrole uemail">rhea@voltrix.io</div>
+      <div class="dash-drawer-subrole urole">Client Partner</div>
+    </div>
+  </div>
+
+  <!-- CLIENT nav (shown when client role) -->
+  <nav class="dash-drawer-nav" id="drawerClientNav">
+    <div class="dash-drawer-section-label">Workspace</div>
+    <button type="button" class="dash-drawer-item on" data-cpnav="cp-overview" data-dash-role="client">
+      <i class="bi bi-grid-1x2"></i><span>Overview</span>
+    </button>
+    <button type="button" class="dash-drawer-item" data-cpnav="cp-campaigns" data-dash-role="client">
+      <i class="bi bi-megaphone"></i><span>Campaigns</span><span class="dash-drawer-badge">4</span>
+    </button>
+    <button type="button" class="dash-drawer-item" data-cpnav="cp-leads" data-dash-role="client">
+      <i class="bi bi-people"></i><span>Leads</span><span class="dash-drawer-badge live">+18</span>
+    </button>
+    <button type="button" class="dash-drawer-item" data-cpnav="cp-reports" data-dash-role="client">
+      <i class="bi bi-file-earmark-bar-graph"></i><span>Reports</span>
+    </button>
+    <button type="button" class="dash-drawer-item" data-cpnav="cp-support" data-dash-role="client">
+      <i class="bi bi-headset"></i><span>Support</span>
+    </button>
+  </nav>
+
+  <!-- ADMIN nav (shown when admin role) -->
+  <nav class="dash-drawer-nav d-none" id="drawerAdminNav">
+    <div class="dash-drawer-section-label">Executive Suite</div>
+    <button type="button" class="dash-drawer-item on" data-admnav="adm-overview" data-dash-role="admin">
+      <i class="bi bi-grid-fill"></i><span>Executive Bento</span>
+    </button>
+    <button type="button" class="dash-drawer-item" data-admnav="adm-clients" data-dash-role="admin">
+      <i class="bi bi-building"></i><span>Client Roster</span><span class="dash-drawer-badge">38 Brands</span>
+    </button>
+    <button type="button" class="dash-drawer-item" data-admnav="adm-pods" data-dash-role="admin">
+      <i class="bi bi-people-fill"></i><span>Specialist Pods</span><span class="dash-drawer-badge">4 Pods</span>
+    </button>
+    <button type="button" class="dash-drawer-item" data-admnav="adm-channels" data-dash-role="admin">
+      <i class="bi bi-pie-chart-fill"></i><span>Channels &amp; ROAS</span>
+    </button>
+    <button type="button" class="dash-drawer-item" data-admnav="adm-lab" data-dash-role="admin">
+      <i class="bi bi-sliders"></i><span>Growth Simulator</span>
+    </button>
+  </nav>
+
+  <!-- Logout at bottom -->
+  <a href="#" class="dash-drawer-logout" onclick="localStorage.removeItem('stackly_user');location.href='login.html';return false">
+    <i class="bi bi-box-arrow-right"></i><span>Log out</span>
+  </a>
+</div>
+<!-- Drawer backdrop -->
+<div id="dashDrawerBackdrop" class="dash-drawer-backdrop"></div>
+
+
+<!-- ========================================================================= -->
+<!-- ======================= 1. CLIENT ROLE DASHBOARD ======================== -->
+<!-- ========================================================================= -->
+<div id="clientDash" class="cp-wrap">
+
+  <!-- 1. Client Sidebar (Left side, directly below Stackly logo) -->
+  <aside class="cp-sidebar">
+    <div class="cp-side-label">Workspace</div>
+    <nav class="cp-side-nav">
+      <button type="button" class="cp-tab on" data-cpnav="cp-overview">
+        <i class="bi bi-grid-1x2"></i><span>Overview</span>
+      </button>
+      <button type="button" class="cp-tab" data-cpnav="cp-campaigns">
+        <i class="bi bi-megaphone"></i><span>Campaigns</span>
+        <span class="cp-tab-badge">4</span>
+      </button>
+      <button type="button" class="cp-tab" data-cpnav="cp-leads">
+        <i class="bi bi-people"></i><span>Leads</span>
+        <span class="cp-tab-badge live">+18</span>
+      </button>
+      <button type="button" class="cp-tab" data-cpnav="cp-reports">
+        <i class="bi bi-file-earmark-bar-graph"></i><span>Reports</span>
+      </button>
+      <button type="button" class="cp-tab" data-cpnav="cp-support">
+        <i class="bi bi-headset"></i><span>Support</span>
+      </button>
+    </nav>
+
+    <!-- Log out tab pinned below -->
+    <a href="#" class="cp-tab cp-logout" onclick="localStorage.removeItem('stackly_user');location.href='login.html';return false">
+      <i class="bi bi-box-arrow-right"></i><span>Log out</span>
+    </a>
+  </aside>
+
+  <!-- 2. Client Main Area (Right side) -->
+  <main class="cp-main">
+    <!-- Client Portal Top Greeting Banner -->
+    <div class="cp-banner">
+      <div class="cp-banner-inner">
+        <div class="cp-greeting">
+          <div class="cp-greeting-avatar">
+            <img src="images/photo-1560250097-0b93528c311a.webp" alt="User">
+            <span class="cp-online-dot"></span>
+          </div>
+          <div>
+            <div class="cp-greeting-name">Good morning &#128075;</div>
+            <div class="cp-greeting-sub">Signed in as <span class="uemail">rhea@voltrix.io</span> &middot; Last updated 2 min ago</div>
+          </div>
+        </div>
+        <div class="cp-banner-right">
+          <div class="cp-live-pill"><span class="cp-pulse"></span>4 Campaigns Live</div>
+          <a href="#" class="cp-btn-primary" onclick="showAdminToast('Opening live dashboard...');return false"><i class="bi bi-graph-up-arrow me-1"></i>Live Report</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Client Portal Body -->
+    <div class="cp-body">
+
+    <!-- OVERVIEW -->
+    <section id="cp-overview" class="cp-sec on">
+      <div class="cp-kpi-row">
+        <div class="cp-kpi-card" style="--ck:#3B2BF0">
+          <div class="cp-kpi-icon"><i class="bi bi-eye-fill"></i></div>
+          <div class="cp-kpi-data">
+            <div class="cp-kpi-val" data-count="48230">0</div>
+            <div class="cp-kpi-label">Total Visitors</div>
+            <div class="cp-kpi-delta up"><i class="bi bi-arrow-up-short"></i>+12.4% vs last month</div>
+          </div>
+        </div>
+        <div class="cp-kpi-card" style="--ck:#2FD6A0">
+          <div class="cp-kpi-icon"><i class="bi bi-person-plus-fill"></i></div>
+          <div class="cp-kpi-data">
+            <div class="cp-kpi-val" data-count="2614">0</div>
+            <div class="cp-kpi-label">Qualified Leads</div>
+            <div class="cp-kpi-delta up"><i class="bi bi-arrow-up-short"></i>+18.9% vs last month</div>
+          </div>
+        </div>
+        <div class="cp-kpi-card" style="--ck:#FF4D8D">
+          <div class="cp-kpi-icon"><i class="bi bi-bullseye"></i></div>
+          <div class="cp-kpi-data">
+            <div class="cp-kpi-val" data-count="5.4" data-suffix="%" data-dec="1">0</div>
+            <div class="cp-kpi-label">Conversion Rate</div>
+            <div class="cp-kpi-delta up"><i class="bi bi-arrow-up-short"></i>+0.8 pts improvement</div>
+          </div>
+        </div>
+        <div class="cp-kpi-card" style="--ck:#f59e0b">
+          <div class="cp-kpi-icon"><i class="bi bi-cash-coin"></i></div>
+          <div class="cp-kpi-data">
+            <div class="cp-kpi-val" data-count="19500" data-prefix="$">0</div>
+            <div class="cp-kpi-label">Ad Spend</div>
+            <div class="cp-kpi-delta dn"><i class="bi bi-arrow-down-short"></i>+4.1% budget used</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cp-chart-row">
+        <!-- Lead Chart -->
+        <div class="cp-card cp-card-chart">
+          <div class="cp-card-header">
+            <div>
+              <div class="cp-card-title">Leads Over Time</div>
+              <div class="cp-card-sub">30-day trend across all channels</div>
+            </div>
+            <div class="cp-pill-tabs">
+              <button class="cp-pill on">30d</button>
+              <button class="cp-pill">90d</button>
+              <button class="cp-pill">1y</button>
+            </div>
+          </div>
+          <svg viewBox="0 0 500 180" class="cp-chart-svg" role="img" aria-label="Lead trend">
+            <defs>
+              <linearGradient id="cpg1" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#3B2BF0" stop-opacity=".15"/>
+                <stop offset="1" stop-color="#3B2BF0" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <line x1="0" x2="500" y1="30" y2="30" stroke="#e9e8f8" stroke-dasharray="4 4"/>
+            <line x1="0" x2="500" y1="75" y2="75" stroke="#e9e8f8" stroke-dasharray="4 4"/>
+            <line x1="0" x2="500" y1="120" y2="120" stroke="#e9e8f8" stroke-dasharray="4 4"/>
+            <line x1="0" x2="500" y1="165" y2="165" stroke="#e9e8f8" stroke-dasharray="4 4"/>
+            <path d="M0,155 C40,148 80,130 130,118 S210,92 265,70 S370,42 500,14 L500,180 L0,180Z" fill="url(#cpg1)"/>
+            <path class="draw" d="M0,155 C40,148 80,130 130,118 S210,92 265,70 S370,42 500,14" fill="none" stroke="#3B2BF0" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="130" cy="118" r="4" fill="#3B2BF0"/>
+            <circle cx="265" cy="70" r="4" fill="#3B2BF0"/>
+            <circle cx="500" cy="14" r="5" fill="#3B2BF0" stroke="#fff" stroke-width="2"/>
+            <text x="10" y="175" font-size="10" fill="#9b98c9">Nov 1</text>
+            <text x="120" y="175" font-size="10" fill="#9b98c9">Nov 10</text>
+            <text x="250" y="175" font-size="10" fill="#9b98c9">Nov 20</text>
+            <text x="440" y="175" font-size="10" fill="#9b98c9">Nov 30</text>
+          </svg>
+        </div>
+
+        <!-- Channel donut card -->
+        <div class="cp-card cp-card-channels">
+          <div class="cp-card-header">
+            <div>
+              <div class="cp-card-title">Leads by Channel</div>
+              <div class="cp-card-sub">Source attribution mix</div>
+            </div>
+          </div>
+          <svg viewBox="0 0 140 140" class="cp-donut-svg" role="img" aria-label="Channel breakdown">
+            <circle cx="70" cy="70" r="52" fill="none" stroke="#f0effe" stroke-width="22"/>
+            <circle cx="70" cy="70" r="52" fill="none" stroke="#3B2BF0" stroke-width="22" stroke-dasharray="137.2 189.5" stroke-dashoffset="81.7" transform="rotate(-90 70 70)"/>
+            <circle cx="70" cy="70" r="52" fill="none" stroke="#2FD6A0" stroke-width="22" stroke-dasharray="88.2 238.5" stroke-dashoffset="-55.5" transform="rotate(-90 70 70)"/>
+            <circle cx="70" cy="70" r="52" fill="none" stroke="#FF4D8D" stroke-width="22" stroke-dasharray="52.3 274.4" stroke-dashoffset="-143.7" transform="rotate(-90 70 70)"/>
+            <circle cx="70" cy="70" r="52" fill="none" stroke="#f59e0b" stroke-width="22" stroke-dasharray="32.7 294.0" stroke-dashoffset="-196.0" transform="rotate(-90 70 70)"/>
+            <text x="70" y="66" text-anchor="middle" font-size="18" font-weight="800" fill="#0F0D2E">2,614</text>
+            <text x="70" y="80" text-anchor="middle" font-size="9" fill="#9b98c9">total leads</text>
+          </svg>
+          <div class="cp-legend">
+            <div class="cp-legend-item"><span style="background:#3B2BF0"></span>Organic 42%</div>
+            <div class="cp-legend-item"><span style="background:#2FD6A0"></span>Paid 27%</div>
+            <div class="cp-legend-item"><span style="background:#FF4D8D"></span>Social 16%</div>
+            <div class="cp-legend-item"><span style="background:#f59e0b"></span>Email &amp; Direct 15%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pod + Activity row -->
+      <div class="cp-chart-row">
+        <div class="cp-card cp-card-pod">
+          <div class="cp-card-title mb-3">Your Dedicated Pod</div>
+          <div class="cp-pod-members">
+            <div class="cp-pod-member">
+              <img src="images/photo-1519085360753-af0119f7cbe7.webp" alt="Marcus Lee">
+              <div><div class="cp-pod-name">Marcus Lee</div><div class="cp-pod-role">Lead Strategist</div></div>
+              <span class="cp-status-dot online"></span>
+            </div>
+            <div class="cp-pod-member">
+              <img src="images/photo-1573496359142-b8d87734a5a2.webp" alt="Meera Joshi">
+              <div><div class="cp-pod-name">Meera Joshi</div><div class="cp-pod-role">Media Buyer</div></div>
+              <span class="cp-status-dot away"></span>
+            </div>
+            <div class="cp-pod-member">
+              <img src="images/photo-1580489944761-15a19d654956.webp" alt="Lina Haddad">
+              <div><div class="cp-pod-name">Lina Haddad</div><div class="cp-pod-role">SEO Analyst</div></div>
+              <span class="cp-status-dot online"></span>
+            </div>
+          </div>
+          <div class="d-flex gap-2 flex-column mt-3">
+            <a href="#" class="cp-btn-primary w-100" onclick="showAdminToast('Opening Slack channel...');return false"><i class="bi bi-slack me-1"></i>Message on Slack</a>
+            <a href="#" class="cp-btn-outline w-100" onclick="showAdminToast('Opening Calendly...');return false"><i class="bi bi-calendar-check me-1"></i>Book a Call</a>
+          </div>
+        </div>
+
+        <div class="cp-card" style="flex:1 1 320px">
+          <div class="cp-card-title mb-3">Recent Activity</div>
+          <div class="cp-activity-feed">
+            <div class="cp-activity-item">
+              <div class="cp-activity-icon" style="background:#eef0ff;color:#3B2BF0"><i class="bi bi-graph-up-arrow"></i></div>
+              <div class="cp-activity-text"><strong>Spring Search Launch</strong> hit 1,420 leads &mdash; 18% above target<div class="cp-activity-time">2 hours ago</div></div>
+            </div>
+            <div class="cp-activity-item">
+              <div class="cp-activity-icon" style="background:#edfcf5;color:#0a8a5f"><i class="bi bi-patch-check"></i></div>
+              <div class="cp-activity-text"><strong>March Monthly Report</strong> is ready to download<div class="cp-activity-time">Yesterday, 4:12 PM</div></div>
+            </div>
+            <div class="cp-activity-item">
+              <div class="cp-activity-icon" style="background:#fff4e5;color:#b37d00"><i class="bi bi-lightbulb"></i></div>
+              <div class="cp-activity-text"><strong>Marcus Lee</strong> updated your SEO keyword strategy<div class="cp-activity-time">2 days ago</div></div>
+            </div>
+            <div class="cp-activity-item">
+              <div class="cp-activity-icon" style="background:#ffeef4;color:#d12b5f"><i class="bi bi-megaphone"></i></div>
+              <div class="cp-activity-text"><strong>Brand Video Series</strong> paused &mdash; budget exhausted<div class="cp-activity-time">3 days ago</div></div>
+            </div>
+            <div class="cp-activity-item">
+              <div class="cp-activity-icon" style="background:#eef0ff;color:#3B2BF0"><i class="bi bi-people"></i></div>
+              <div class="cp-activity-text"><strong>5 new qualified leads</strong> added from LinkedIn campaign<div class="cp-activity-time">4 days ago</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CAMPAIGNS -->
+    <section id="cp-campaigns" class="cp-sec">
+      <div class="cp-sec-header">
+        <div><div class="cp-sec-title">Active Campaigns</div><div class="cp-sec-sub">Every campaign, its spend and leads produced.</div></div>
+        <a href="#" class="cp-btn-primary" onclick="showAdminToast('Exporting campaign data...');return false"><i class="bi bi-download me-1"></i>Export</a>
+      </div>
+      <div class="cp-kpi-row">
+        <div class="cp-kpi-card" style="--ck:#3B2BF0"><div class="cp-kpi-icon"><i class="bi bi-megaphone-fill"></i></div><div class="cp-kpi-data"><div class="cp-kpi-val" data-count="4">0</div><div class="cp-kpi-label">Active Campaigns</div></div></div>
+        <div class="cp-kpi-card" style="--ck:#2FD6A0"><div class="cp-kpi-icon"><i class="bi bi-cash-stack"></i></div><div class="cp-kpi-data"><div class="cp-kpi-val" data-count="19500" data-prefix="$">0</div><div class="cp-kpi-label">Total Spend</div></div></div>
+        <div class="cp-kpi-card" style="--ck:#FF4D8D"><div class="cp-kpi-icon"><i class="bi bi-person-plus-fill"></i></div><div class="cp-kpi-data"><div class="cp-kpi-val" data-count="2614">0</div><div class="cp-kpi-label">Campaign Leads</div></div></div>
+        <div class="cp-kpi-card" style="--ck:#f59e0b"><div class="cp-kpi-icon"><i class="bi bi-bullseye"></i></div><div class="cp-kpi-data"><div class="cp-kpi-val" data-count="5.64" data-prefix="$" data-dec="2">0</div><div class="cp-kpi-label">Avg. Cost per Lead</div></div></div>
+      </div>
+      <div class="cp-campaigns-grid">
+        <div class="cp-campaign-card">
+          <div class="cp-campaign-top"><div class="cp-campaign-logo" style="background:#e8f4fd;color:#1877f2"><i class="bi bi-google"></i></div><span class="cp-status-badge live">Live</span></div>
+          <div class="cp-campaign-name">Spring Search Launch</div><div class="cp-campaign-channel">Google Ads</div>
+          <div class="cp-campaign-stats">
+            <div><div class="cp-cstat-val">$8,400</div><div class="cp-cstat-label">Spend</div></div>
+            <div><div class="cp-cstat-val">1,420</div><div class="cp-cstat-label">Leads</div></div>
+            <div><div class="cp-cstat-val">$5.91</div><div class="cp-cstat-label">CPL</div></div>
+          </div>
+          <div class="cp-campaign-bar-wrap"><div class="cp-campaign-bar" style="width:85%"></div></div>
+        </div>
+        <div class="cp-campaign-card">
+          <div class="cp-campaign-top"><div class="cp-campaign-logo" style="background:#f0e6ff;color:#1877f2"><i class="bi bi-meta"></i></div><span class="cp-status-badge live">Live</span></div>
+          <div class="cp-campaign-name">Retargeting Q4</div><div class="cp-campaign-channel">Meta Ads</div>
+          <div class="cp-campaign-stats">
+            <div><div class="cp-cstat-val">$5,100</div><div class="cp-cstat-label">Spend</div></div>
+            <div><div class="cp-cstat-val">980</div><div class="cp-cstat-label">Leads</div></div>
+            <div><div class="cp-cstat-val">$5.20</div><div class="cp-cstat-label">CPL</div></div>
+          </div>
+          <div class="cp-campaign-bar-wrap"><div class="cp-campaign-bar" style="width:63%;background:#2FD6A0"></div></div>
+        </div>
+        <div class="cp-campaign-card">
+          <div class="cp-campaign-top"><div class="cp-campaign-logo" style="background:#e7f3fb;color:#0a66c2"><i class="bi bi-linkedin"></i></div><span class="cp-status-badge learning">Learning</span></div>
+          <div class="cp-campaign-name">Product Webinar</div><div class="cp-campaign-channel">LinkedIn Ads</div>
+          <div class="cp-campaign-stats">
+            <div><div class="cp-cstat-val">$3,800</div><div class="cp-cstat-label">Spend</div></div>
+            <div><div class="cp-cstat-val">214</div><div class="cp-cstat-label">Leads</div></div>
+            <div><div class="cp-cstat-val">$17.76</div><div class="cp-cstat-label">CPL</div></div>
+          </div>
+          <div class="cp-campaign-bar-wrap"><div class="cp-campaign-bar" style="width:40%;background:#f59e0b"></div></div>
+        </div>
+        <div class="cp-campaign-card">
+          <div class="cp-campaign-top"><div class="cp-campaign-logo" style="background:#ffe8ea;color:#ff0000"><i class="bi bi-youtube"></i></div><span class="cp-status-badge paused">Paused</span></div>
+          <div class="cp-campaign-name">Brand Video Series</div><div class="cp-campaign-channel">YouTube Ads</div>
+          <div class="cp-campaign-stats">
+            <div><div class="cp-cstat-val">$2,200</div><div class="cp-cstat-label">Spend</div></div>
+            <div><div class="cp-cstat-val">0</div><div class="cp-cstat-label">Leads</div></div>
+            <div><div class="cp-cstat-val">n/a</div><div class="cp-cstat-label">CPL</div></div>
+          </div>
+          <div class="cp-campaign-bar-wrap"><div class="cp-campaign-bar" style="width:20%;background:#e0deff"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEADS -->
+    <section id="cp-leads" class="cp-sec">
+      <div class="cp-sec-header">
+        <div><div class="cp-sec-title">Lead Intelligence</div><div class="cp-sec-sub">Every lead captured, verified and scored.</div></div>
+        <a href="#" class="cp-btn-primary" onclick="showAdminToast('Syncing to CRM...');return false"><i class="bi bi-cloud-upload me-1"></i>Sync to CRM</a>
+      </div>
+      <div class="cp-kpi-row">
+        <div class="cp-kpi-card" style="--ck:#3B2BF0"><div class="cp-kpi-icon"><i class="bi bi-people-fill"></i></div><div class="cp-kpi-data"><div class="cp-kpi-val" data-count="2614">0</div><div class="cp-kpi-label">Total Leads</div><div class="cp-kpi-delta up"><i class="bi bi-arrow-up-short"></i>+18.9%</div></div></div>
+        <div class="cp-kpi-card" style="--ck:#2FD6A0"><div class="cp-kpi-icon"><i class="bi bi-patch-check-fill"></i></div><div class="cp-kpi-data"><div class="cp-kpi-val" data-count="1186">0</div><div class="cp-kpi-label">Qualified</div><div class="cp-kpi-delta up"><i class="bi bi-arrow-up-short"></i>+12.2%</div></div></div>
+        <div class="cp-kpi-card" style="--ck:#FF4D8D"><div class="cp-kpi-icon"><i class="bi bi-bullseye"></i></div><div class="cp-kpi-data"><div class="cp-kpi-val" data-count="5.64" data-prefix="$" data-dec="2">0</div><div class="cp-kpi-label">Cost per Lead</div><div class="cp-kpi-delta up"><i class="bi bi-arrow-down-short"></i>-9.3%</div></div></div>
+        <div class="cp-kpi-card" style="--ck:#f59e0b"><div class="cp-kpi-icon"><i class="bi bi-clock-history"></i></div><div class="cp-kpi-data"><div class="cp-kpi-val" data-count="3.2" data-suffix=" h" data-dec="1">0</div><div class="cp-kpi-label">Avg. Response</div></div></div>
+      </div>
+      <div class="cp-card">
+        <div class="cp-card-header">
+          <div class="cp-card-title">Recent Qualified Leads</div>
+          <div class="cp-pill-tabs">
+            <button class="cp-pill on">All</button>
+            <button class="cp-pill">Qualified</button>
+            <button class="cp-pill">In Review</button>
+          </div>
+        </div>
+        <div class="cp-leads-list">
+          <div class="cp-lead-row">
+            <div class="cp-lead-avatar" style="background:#eef0ff;color:#3B2BF0">MJ</div>
+            <div class="cp-lead-info"><div class="cp-lead-name">Meera Joshi</div><div class="cp-lead-meta">Craftly &middot; Organic search</div></div>
+            <div class="cp-lead-value">$4,800</div>
+            <span class="cp-status-badge live">Qualified</span>
+          </div>
+          <div class="cp-lead-row">
+            <div class="cp-lead-avatar" style="background:#edfcf5;color:#0a8a5f">DP</div>
+            <div class="cp-lead-info"><div class="cp-lead-name">Daniel Park</div><div class="cp-lead-meta">Homestead &middot; Paid search</div></div>
+            <div class="cp-lead-value">$3,200</div>
+            <span class="cp-status-badge live">Qualified</span>
+          </div>
+          <div class="cp-lead-row">
+            <div class="cp-lead-avatar" style="background:#fff4e5;color:#b37d00">LH</div>
+            <div class="cp-lead-info"><div class="cp-lead-name">Lina Haddad</div><div class="cp-lead-meta">Vitalis &middot; Social</div></div>
+            <div class="cp-lead-value">$1,950</div>
+            <span class="cp-status-badge learning">In Review</span>
+          </div>
+          <div class="cp-lead-row">
+            <div class="cp-lead-avatar" style="background:#ffeef4;color:#d12b5f">RN</div>
+            <div class="cp-lead-info"><div class="cp-lead-name">Rhea Nair</div><div class="cp-lead-meta">Voltrix &middot; Email</div></div>
+            <div class="cp-lead-value">$2,700</div>
+            <span class="cp-status-badge live">Qualified</span>
+          </div>
+          <div class="cp-lead-row">
+            <div class="cp-lead-avatar" style="background:#f0effe;color:#615f85">ML</div>
+            <div class="cp-lead-info"><div class="cp-lead-name">Marcus Lee</div><div class="cp-lead-meta">Skyroute &middot; Direct</div></div>
+            <div class="cp-lead-value">$1,200</div>
+            <span class="cp-status-badge paused">New</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REPORTS -->
+    <section id="cp-reports" class="cp-sec">
+      <div class="cp-sec-header">
+        <div><div class="cp-sec-title">Revenue Reports</div><div class="cp-sec-sub">Board-ready reports tied to pipeline and revenue.</div></div>
+      </div>
+      <div class="cp-kpi-row">
+        <div class="cp-kpi-card" style="--ck:#3B2BF0"><div class="cp-kpi-icon"><i class="bi bi-file-earmark-bar-graph-fill"></i></div><div class="cp-kpi-data"><div class="cp-kpi-val" data-count="148">0</div><div class="cp-kpi-label">Reports Delivered</div></div></div>
+        <div class="cp-kpi-card" style="--ck:#2FD6A0"><div class="cp-kpi-icon"><i class="bi bi-cash-stack"></i></div><div class="cp-kpi-data"><div class="cp-kpi-val" data-count="184500" data-prefix="$">0</div><div class="cp-kpi-label">Revenue Attributed</div></div></div>
+        <div class="cp-kpi-card" style="--ck:#FF4D8D"><div class="cp-kpi-icon"><i class="bi bi-graph-up-arrow"></i></div><div class="cp-kpi-data"><div class="cp-kpi-val" data-count="4.8" data-suffix="x" data-dec="1">0</div><div class="cp-kpi-label">Average ROI</div></div></div>
+        <div class="cp-kpi-card" style="--ck:#f59e0b"><div class="cp-kpi-icon"><i class="bi bi-check2-circle"></i></div><div class="cp-kpi-data"><div class="cp-kpi-val" data-count="100" data-suffix="%">0</div><div class="cp-kpi-label">On-time Delivery</div></div></div>
+      </div>
+      <div class="cp-reports-grid">
+        <div class="cp-report-card"><div class="cp-report-icon" style="background:#eef0ff;color:#3B2BF0"><i class="bi bi-bar-chart-line-fill"></i></div><div class="cp-report-info"><div class="cp-report-name">Monthly Performance</div><div class="cp-report-meta">Mar 2026 &middot; Revenue: $42,300</div></div><span class="cp-status-badge live">Ready</span><button class="cp-report-dl" onclick="showAdminToast('Downloading Monthly Performance PDF...')"><i class="bi bi-cloud-arrow-down-fill"></i></button></div>
+        <div class="cp-report-card"><div class="cp-report-icon" style="background:#edfcf5;color:#0a8a5f"><i class="bi bi-funnel-fill"></i></div><div class="cp-report-info"><div class="cp-report-name">Channel Deep Dive</div><div class="cp-report-meta">Feb 2026 &middot; Revenue: $38,900</div></div><span class="cp-status-badge live">Ready</span><button class="cp-report-dl" onclick="showAdminToast('Downloading Channel Deep Dive PDF...')"><i class="bi bi-cloud-arrow-down-fill"></i></button></div>
+        <div class="cp-report-card"><div class="cp-report-icon" style="background:#fff4e5;color:#b37d00"><i class="bi bi-clipboard2-data-fill"></i></div><div class="cp-report-info"><div class="cp-report-name">Quarterly Board Summary</div><div class="cp-report-meta">Q1 2026 &middot; Revenue: $121,500</div></div><span class="cp-status-badge learning">Scheduled</span><button class="cp-report-dl" onclick="showAdminToast('Scheduled for delivery next Monday.')"><i class="bi bi-clock"></i></button></div>
+        <div class="cp-report-card"><div class="cp-report-icon" style="background:#eef0ff;color:#3B2BF0"><i class="bi bi-search"></i></div><div class="cp-report-info"><div class="cp-report-name">SEO Traffic Report</div><div class="cp-report-meta">Feb 2026 &middot; Revenue: $16,700</div></div><span class="cp-status-badge live">Ready</span><button class="cp-report-dl" onclick="showAdminToast('Downloading SEO Report PDF...')"><i class="bi bi-cloud-arrow-down-fill"></i></button></div>
+      </div>
+    </section>
+
+    <!-- SUPPORT -->
+    <section id="cp-support" class="cp-sec">
+      <div class="cp-sec-header">
+        <div><div class="cp-sec-title">Pod Support</div><div class="cp-sec-sub">Your dedicated team is one message away. Average reply: 42 min.</div></div>
+        <a href="#" class="cp-btn-primary" onclick="showAdminToast('Opening new ticket form...');return false"><i class="bi bi-plus-circle me-1"></i>New Ticket</a>
+      </div>
+      <div class="cp-kpi-row">
+        <div class="cp-kpi-card" style="--ck:#3B2BF0"><div class="cp-kpi-icon"><i class="bi bi-ticket-detailed-fill"></i></div><div class="cp-kpi-data"><div class="cp-kpi-val" data-count="3">0</div><div class="cp-kpi-label">Open Tickets</div></div></div>
+        <div class="cp-kpi-card" style="--ck:#2FD6A0"><div class="cp-kpi-icon"><i class="bi bi-check2-all"></i></div><div class="cp-kpi-data"><div class="cp-kpi-val" data-count="57">0</div><div class="cp-kpi-label">Resolved This Month</div></div></div>
+        <div class="cp-kpi-card" style="--ck:#FF4D8D"><div class="cp-kpi-icon"><i class="bi bi-clock-fill"></i></div><div class="cp-kpi-data"><div class="cp-kpi-val" data-count="42" data-suffix=" min">0</div><div class="cp-kpi-label">Avg. First Reply</div></div></div>
+        <div class="cp-kpi-card" style="--ck:#f59e0b"><div class="cp-kpi-icon"><i class="bi bi-emoji-smile-fill"></i></div><div class="cp-kpi-data"><div class="cp-kpi-val" data-count="98" data-suffix="%">0</div><div class="cp-kpi-label">Satisfaction</div></div></div>
+      </div>
+      <div class="cp-chart-row">
+        <div class="cp-card" style="flex:1 1 300px">
+          <div class="cp-card-title mb-3">Contact Your Pod</div>
+          <div class="cp-contact-options">
+            <a href="#" class="cp-contact-opt" onclick="showAdminToast('Opening Slack...');return false"><div class="cp-contact-icon" style="background:#eef0ff;color:#3B2BF0"><i class="bi bi-slack"></i></div><div><div class="cp-contact-title">Slack Channel</div><div class="cp-contact-sub">#stackly-growth-pod &middot; Fastest response</div></div><i class="bi bi-arrow-right ms-auto"></i></a>
+            <a href="#" class="cp-contact-opt" onclick="showAdminToast('Opening calendar booking...');return false"><div class="cp-contact-icon" style="background:#edfcf5;color:#0a8a5f"><i class="bi bi-calendar-check-fill"></i></div><div><div class="cp-contact-title">Book a Strategy Call</div><div class="cp-contact-sub">30 min with Marcus Lee</div></div><i class="bi bi-arrow-right ms-auto"></i></a>
+            <a href="#" class="cp-contact-opt" onclick="showAdminToast('Opening email client...');return false"><div class="cp-contact-icon" style="background:#fff4e5;color:#b37d00"><i class="bi bi-envelope-fill"></i></div><div><div class="cp-contact-title">Email Support</div><div class="cp-contact-sub">pod-alpha@stackly.agency</div></div><i class="bi bi-arrow-right ms-auto"></i></a>
+            <a href="#" class="cp-contact-opt" onclick="showAdminToast('Opening knowledge base...');return false"><div class="cp-contact-icon" style="background:#ffeef4;color:#d12b5f"><i class="bi bi-book-fill"></i></div><div><div class="cp-contact-title">Knowledge Base</div><div class="cp-contact-sub">Guides, FAQs &amp; attribution docs</div></div><i class="bi bi-arrow-right ms-auto"></i></a>
+          </div>
+        </div>
+        <div class="cp-card" style="flex:1 1 300px">
+          <div class="cp-card-title mb-3">Open Tickets</div>
+          <div class="cp-tickets">
+            <div class="cp-ticket"><div class="cp-ticket-dot" style="background:#3B2BF0"></div><div class="cp-ticket-body"><div class="cp-ticket-title">LinkedIn campaign reporting discrepancy</div><div class="cp-ticket-meta">Opened 2 days ago &middot; <strong>Marcus Lee</strong> is reviewing</div></div><span class="cp-status-badge learning">Open</span></div>
+            <div class="cp-ticket"><div class="cp-ticket-dot" style="background:#2FD6A0"></div><div class="cp-ticket-body"><div class="cp-ticket-title">Update UTM parameters for email campaign</div><div class="cp-ticket-meta">Opened 4 days ago &middot; Reply sent</div></div><span class="cp-status-badge learning">Open</span></div>
+            <div class="cp-ticket"><div class="cp-ticket-dot" style="background:#f59e0b"></div><div class="cp-ticket-body"><div class="cp-ticket-title">Q2 roadmap strategy session scheduling</div><div class="cp-ticket-meta">Opened 5 days ago &middot; Waiting on calendar</div></div><span class="cp-status-badge learning">Open</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- .cp-body -->
+  </main><!-- .cp-main -->
+</div><!-- #clientDash -->
+
+<!-- ========================================================================= -->
+<!-- ========================================================================= -->
+<!-- ======================= 2. ADMIN ROLE DASHBOARD ======================== -->
+<!-- ========================================================================= -->
+<div id="adminDash" class="adm-suite d-none">
+
+  <!-- 1. Admin Sidebar (Left side, directly below Stackly logo like client role dashboard) -->
+  <aside class="adm-sidebar">
+    <div class="adm-side-label">Executive Suite</div>
+    <nav class="adm-side-nav">
+      <button type="button" class="adm-tab on" data-admnav="adm-overview">
+        <i class="bi bi-grid-fill"></i><span>Executive Bento</span>
+      </button>
+      <button type="button" class="adm-tab" data-admnav="adm-clients">
+        <i class="bi bi-building"></i><span>Client Roster</span>
+        <span class="adm-tab-badge">38 Brands</span>
+      </button>
+      <button type="button" class="adm-tab" data-admnav="adm-pods">
+        <i class="bi bi-people-fill"></i><span>Specialist Pods</span>
+        <span class="adm-tab-badge">4 Pods</span>
+      </button>
+      <button type="button" class="adm-tab" data-admnav="adm-channels">
+        <i class="bi bi-pie-chart-fill"></i><span>Channels & ROAS</span>
+      </button>
+      <button type="button" class="adm-tab" data-admnav="adm-lab">
+        <i class="bi bi-sliders"></i><span>Growth Simulator</span>
+      </button>
+    </nav>
+
+    <!-- Dedicated Agency Director Card in Admin Sidebar -->
+    <div class="adm-side-card">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <div class="position-relative flex-shrink-0">
+          <img src="images/photo-1560250097-0b93528c311a.webp" alt="Director" class="cp-side-pod-img">
+          <span class="cp-online-dot" style="width:8px;height:8px;bottom:0;right:0"></span>
+        </div>
+        <div class="lh-1 min-w-0">
+          <div class="cp-side-pod-name text-truncate">Alex Vance</div>
+          <small class="cp-side-pod-role text-muted">Super Admin / Director</small>
+        </div>
+      </div>
+      <button type="button" class="adm-side-btn" onclick="showAdminToast('Opening New Client Brand onboarding modal...');return false">
+        <i class="bi bi-building-add me-1"></i>Onboard Client
+      </button>
+    </div>
+
+    <!-- Log out tab pinned below -->
+    <a href="#" class="adm-tab adm-logout" onclick="localStorage.removeItem('stackly_user');location.href='login.html';return false">
+      <i class="bi bi-box-arrow-right"></i><span>Log out</span>
+    </a>
+  </aside>
+
+  <!-- 2. Admin Main Area (Right side) -->
+  <main class="adm-main">
+
+    <!-- Executive Hero Command Banner (Matching Website Hero DNA) -->
+    <div class="adm-hero">
+      <div class="container-fluid px-lg-4 px-xl-5">
+        <div class="d-flex justify-content-between align-items-start align-items-lg-center flex-column flex-lg-row gap-4">
+          <div>
+            <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+              <span class="adm-pill-tag"><i class="bi bi-shield-check me-1"></i>Agency Director</span>
+              <span class="adm-live-badge"><span class="cp-pulse"></span>38 Client Retainers Live</span>
+              <span class="adm-pill-tag"><i class="bi bi-activity me-1"></i>100% Tracking Health</span>
+              <span class="adm-pill-tag"><i class="bi bi-lightning-charge-fill me-1 text-warning"></i>$1.42M Media Managed</span>
+            </div>
+            <h1 class="adm-title">Agency Command Suite</h1>
+            <p class="adm-sub mb-0">Portfolio governance across 38 client brands, 4 specialist delivery pods & multi-network revenue attribution.</p>
+          </div>
+          <div class="d-flex align-items-center gap-2 flex-wrap">
+            <button type="button" class="btn btn-pink btn-sm fw-bold" onclick="showAdminToast('Opening New Client Brand onboarding modal...');return false">
+              <i class="bi bi-building-add me-1"></i>Onboard Client
+            </button>
+            <button type="button" class="btn btn-ghost btn-sm fw-bold" onclick="showAdminToast('Exporting Q1 2026 P&L CSV statement...');return false">
+              <i class="bi bi-download me-1"></i>Export P&L Report
+            </button>
+            <button type="button" class="btn btn-cobalt btn-sm fw-bold" onclick="showAdmTab('adm-lab');return false">
+              <i class="bi bi-sliders me-1"></i>Growth Simulator
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Main Workspace -->
+    <div class="adm-body">
+      <div class="container-fluid px-lg-4 px-xl-5">
+
+      <!-- ================= 1. OVERVIEW SECTION (EXECUTIVE BENTO) ================= -->
+      <section id="adm-overview" class="adm-sec on">
+
+        <!-- Bento Row 1: Asymmetrical 3-Card Spotlight -->
+        <div class="row g-4 mb-4">
+          <!-- Bento 1: Gross MRR & Milestone Progress -->
+          <div class="col-lg-5">
+            <div class="adm-card adm-bento-hero">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="tag tag-cobalt"><i class="bi bi-wallet2 me-1"></i>Gross Retainer MRR</span>
+                <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 fw-bold">
+                  <i class="bi bi-arrow-up-short"></i>+22.4% Net MoM
+                </span>
+              </div>
+              <div class="adm-bento-hero-val">$384,500<span class="adm-bento-unit">/month</span></div>
+              <p class="small text-muted mb-3">Total recurring client agency retainers & media management fees for Q1 2026.</p>
+              
+              <!-- Milestone Pacing -->
+              <div class="p-3 rounded-3 mb-3" style="background:#f4f3ff;border:1px solid #e2e0fb">
+                <div class="d-flex justify-content-between small fw-bold mb-1">
+                  <span>Q1 Milestone Target ($400,000)</span>
+                  <span class="text-primary">96.1% Reached</span>
+                </div>
+                <div class="progress" style="height:8px;background:#e2e0fb">
+                  <div class="progress-bar" style="width:96.1%;background:linear-gradient(90deg, #3B2BF0, #FF4D8D)"></div>
+                </div>
+              </div>
+
+              <!-- Revenue Split Breakdown -->
+              <div class="row g-2 pt-1 border-top">
+                <div class="col-6">
+                  <small class="text-muted d-block" style="font-size:0.75rem">Fixed Strategic Retainers</small>
+                  <b class="fs-6 text-dark">$286,000 <span class="text-muted small" style="font-size:0.7rem">(74%)</span></b>
+                </div>
+                <div class="col-6">
+                  <small class="text-muted d-block" style="font-size:0.75rem">Media Spend Commissions</small>
+                  <b class="fs-6 text-dark">$98,500 <span class="text-muted small" style="font-size:0.7rem">(26%)</span></b>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bento 2: 38-Brand Portfolio Health Matrix -->
+          <div class="col-lg-4">
+            <div class="adm-card">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="adm-card-title mb-0">Portfolio Health Matrix</h5>
+                <span class="adm-badge">38 Brands</span>
+              </div>
+              <p class="adm-card-sub mb-3">Live account status across all active enterprise & mid-market retainers.</p>
+
+              <div class="d-flex flex-column gap-2 mb-3">
+                <div class="p-2 rounded-3 d-flex align-items-center justify-content-between" style="background:rgba(47,214,160,0.1);border:1px solid rgba(47,214,160,0.25)">
+                  <div class="d-flex align-items-center gap-2">
+                    <span style="width:10px;height:10px;background:#2FD6A0;border-radius:50%"></span>
+                    <span class="small fw-bold">Scaling Brands (ROAS &gt; 4.0x)</span>
+                  </div>
+                  <b class="text-success small">32 Brands</b>
+                </div>
+
+                <div class="p-2 rounded-3 d-flex align-items-center justify-content-between" style="background:rgba(59,43,240,0.08);border:1px solid rgba(59,43,240,0.2)">
+                  <div class="d-flex align-items-center gap-2">
+                    <span style="width:10px;height:10px;background:#3B2BF0;border-radius:50%"></span>
+                    <span class="small fw-bold">30-Day Onboarding Sprints</span>
+                  </div>
+                  <b class="text-primary small">4 Brands</b>
+                </div>
+
+                <div class="p-2 rounded-3 d-flex align-items-center justify-content-between" style="background:rgba(255,77,141,0.08);border:1px solid rgba(255,77,141,0.2)">
+                  <div class="d-flex align-items-center gap-2">
+                    <span style="width:10px;height:10px;background:#FF4D8D;border-radius:50%"></span>
+                    <span class="small fw-bold">Creative Refresh / Review</span>
+                  </div>
+                  <b class="text-danger small">2 Brands</b>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center pt-2 border-top small text-muted">
+                <span>Annual Retention: <b class="text-dark">96.2%</b></span>
+                <button class="btn btn-sm btn-outline-primary py-1 px-2" style="font-size:0.78rem" onclick="showAdmTab('adm-clients')">
+                  Roster &rarr;
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bento 3: Specialist Headcount & Utilization -->
+          <div class="col-lg-3">
+            <div class="adm-card">
+              <div class="small fw-bold text-muted text-uppercase mb-1" style="letter-spacing:0.05em">Agency Staffing</div>
+              <div class="d-flex align-items-baseline gap-2 mb-2">
+                <span class="adm-bento-stat text-primary">84%</span>
+                <span class="small fw-bold text-muted">Capacity</span>
+              </div>
+              <p class="small text-muted mb-3">32 of 38 specialist allocations active across 4 dedicated pods.</p>
+
+              <div class="d-flex flex-column gap-2 mb-3">
+                <div class="d-flex justify-content-between small fw-bold">
+                  <span class="text-muted">Pod Alpha (SaaS)</span>
+                  <span class="text-success">88%</span>
+                </div>
+                <div class="d-flex justify-content-between small fw-bold">
+                  <span class="text-muted">Pod Bravo (DTC)</span>
+                  <span class="text-warning">94%</span>
+                </div>
+                <div class="d-flex justify-content-between small fw-bold">
+                  <span class="text-muted">Pod Delta (Health)</span>
+                  <span class="text-success">76%</span>
+                </div>
+                <div class="d-flex justify-content-between small fw-bold">
+                  <span class="text-muted">Pod Enterprise</span>
+                  <span class="text-success">82%</span>
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-sm btn-outline-secondary w-100" style="font-size:0.78rem;font-weight:700" onclick="showAdmTab('adm-pods')">
+                <i class="bi bi-people me-1"></i>Manage 4 Pods
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bento Row 2: Dual Core Operations (Revenue/Spend Curve + Channel Attribution) -->
+        <div class="row g-4 mb-4">
+          <!-- Left: Revenue & Managed Ad Spend Chart -->
+          <div class="col-lg-8">
+            <div class="adm-card">
+              <div class="d-flex justify-content-between align-items-start mb-3 flex-wrap gap-2">
+                <div>
+                  <h5 class="adm-card-title mb-1">Agency Revenue vs Managed Ad Spend Flow</h5>
+                  <p class="adm-card-sub mb-0">Monthly retainer fees & ad spend velocity across all 38 client brands</p>
+                </div>
+                <div class="adm-pill-group">
+                  <button type="button" class="adm-pill on">Q1 2026</button>
+                  <button type="button" class="adm-pill">Trailing 6M</button>
+                  <button type="button" class="adm-pill">1 Year</button>
+                </div>
+              </div>
+
+              <!-- SVG Area Flow Chart -->
+              <div class="position-relative">
+                <svg viewBox="0 0 650 200" class="w-100" style="overflow:visible;height:auto">
+                  <defs>
+                    <linearGradient id="admg1" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0" stop-color="#3B2BF0" stop-opacity=".25"/>
+                      <stop offset="1" stop-color="#3B2BF0" stop-opacity="0"/>
+                    </linearGradient>
+                    <linearGradient id="admg2" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0" stop-color="#FF4D8D" stop-opacity=".2"/>
+                      <stop offset="1" stop-color="#FF4D8D" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <line x1="0" x2="650" y1="35" y2="35" stroke="#ece9ff" stroke-dasharray="4 4"/>
+                  <line x1="0" x2="650" y1="85" y2="85" stroke="#ece9ff" stroke-dasharray="4 4"/>
+                  <line x1="0" x2="650" y1="135" y2="135" stroke="#ece9ff" stroke-dasharray="4 4"/>
+                  <line x1="0" x2="650" y1="185" y2="185" stroke="#ece9ff" stroke-dasharray="4 4"/>
+                  
+                  <!-- Spend Curve -->
+                  <path d="M0,160 C100,150 180,120 280,105 S450,75 650,25 L650,200 L0,200Z" fill="url(#admg2)"/>
+                  <path d="M0,160 C100,150 180,120 280,105 S450,75 650,25" fill="none" stroke="#FF4D8D" stroke-width="3" stroke-linecap="round"/>
+
+                  <!-- Revenue Curve -->
+                  <path d="M0,175 C100,165 180,140 280,130 S450,95 650,55 L650,200 L0,200Z" fill="url(#admg1)"/>
+                  <path d="M0,175 C100,165 180,140 280,130 S450,95 650,55" fill="none" stroke="#3B2BF0" stroke-width="3" stroke-linecap="round"/>
+
+                  <circle cx="280" cy="130" r="5" fill="#3B2BF0" stroke="#fff" stroke-width="2"/>
+                  <circle cx="650" cy="55" r="5" fill="#3B2BF0" stroke="#fff" stroke-width="2"/>
+                  <circle cx="280" cy="105" r="5" fill="#FF4D8D" stroke="#fff" stroke-width="2"/>
+                  <circle cx="650" cy="25" r="5" fill="#FF4D8D" stroke="#fff" stroke-width="2"/>
+
+                  <text x="5" y="198" font-size="11" fill="#9b98c9">Jan 2026</text>
+                  <text x="250" y="198" font-size="11" fill="#9b98c9">Feb 2026</text>
+                  <text x="580" y="198" font-size="11" fill="#9b98c9">Mar 2026</text>
+                </svg>
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top flex-wrap gap-2">
+                <div class="d-flex align-items-center gap-3">
+                  <span class="small fw-bold d-flex align-items-center gap-2"><span style="width:12px;height:12px;background:#3B2BF0;border-radius:3px"></span>Retainer Revenue ($384.5k)</span>
+                  <span class="small fw-bold d-flex align-items-center gap-2"><span style="width:12px;height:12px;background:#FF4D8D;border-radius:3px"></span>Ad Spend Paced ($1.42M)</span>
+                </div>
+                <small class="text-success fw-bold"><i class="bi bi-shield-check me-1"></i>100% Tracking Verified</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Channel Attribution Matrix -->
+          <div class="col-lg-4">
+            <div class="adm-card h-100">
+              <h5 class="adm-card-title mb-1">Attributed Channel Mix</h5>
+              <p class="adm-card-sub mb-3">Share of closed leads & revenue by channel</p>
+
+              <div class="d-flex flex-column gap-3">
+                <div>
+                  <div class="d-flex justify-content-between small fw-bold mb-1">
+                    <span><i class="bi bi-search text-primary me-2"></i>Organic Search (SEO)</span>
+                    <span>36% &middot; $138.4k</span>
+                  </div>
+                  <div class="prog" style="height:8px"><div style="width:36%;background:#3B2BF0"></div></div>
+                </div>
+
+                <div>
+                  <div class="d-flex justify-content-between small fw-bold mb-1">
+                    <span><i class="bi bi-megaphone text-danger me-2"></i>Paid Search (Google)</span>
+                    <span>31% &middot; $119.2k</span>
+                  </div>
+                  <div class="prog" style="height:8px"><div style="width:31%;background:#FF4D8D"></div></div>
+                </div>
+
+                <div>
+                  <div class="d-flex justify-content-between small fw-bold mb-1">
+                    <span><i class="bi bi-share text-success me-2"></i>Paid Social (Meta & TikTok)</span>
+                    <span>22% &middot; $84.6k</span>
+                  </div>
+                  <div class="prog" style="height:8px"><div style="width:22%;background:#2FD6A0"></div></div>
+                </div>
+
+                <div>
+                  <div class="d-flex justify-content-between small fw-bold mb-1">
+                    <span><i class="bi bi-envelope-paper text-warning me-2"></i>Email Lifecycle CRM</span>
+                    <span>11% &middot; $42.3k</span>
+                  </div>
+                  <div class="prog" style="height:8px"><div style="width:11%;background:#f59e0b"></div></div>
+                </div>
+              </div>
+
+              <div class="mt-4 p-3 rounded-3" style="background:#fafafe;border:1px solid #ece9ff">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                  <i class="bi bi-lightning-charge-fill text-primary"></i>
+                  <b class="small">Blended Client ROAS: 4.42x</b>
+                </div>
+                <small class="text-muted d-block" style="font-size:0.75rem">+0.62 pts above 3.80x industry benchmark.</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bento Row 3: Live Brand Operations & Real-Time Event Audit Feed -->
+        <div class="row g-4 mb-4">
+          <!-- Left: High Velocity Client Campaigns -->
+          <div class="col-lg-7">
+            <div class="adm-card">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="adm-card-title mb-0">High-Velocity Client Campaigns</h5>
+                <button class="btn btn-sm btn-outline-primary" onclick="showAdmTab('adm-clients')">View All 38</button>
+              </div>
+              <div class="d-flex flex-column gap-2">
+                <div class="adm-client-mini-card">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="adm-client-icon" style="background:rgba(59,43,240,.1);color:#3B2BF0"><i class="bi bi-lightning-fill"></i></div>
+                    <div>
+                      <div class="fw-bold">Voltrix (B2B SaaS)</div>
+                      <small class="muted">Rhea Nair &middot; Pod Alpha &middot; 4 Campaigns Live</small>
+                    </div>
+                  </div>
+                  <div class="text-end">
+                    <div class="fw-bold text-success">+18.9% Leads</div>
+                    <small class="muted">$19.5k spend &middot; 4.8x ROAS</small>
+                  </div>
+                </div>
+
+                <div class="adm-client-mini-card">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="adm-client-icon" style="background:rgba(47,214,160,.14);color:#0a8a5f"><i class="bi bi-house-door-fill"></i></div>
+                    <div>
+                      <div class="fw-bold">Homestead (Real Estate)</div>
+                      <small class="muted">Daniel Park &middot; Pod Delta &middot; Scaling</small>
+                    </div>
+                  </div>
+                  <div class="text-end">
+                    <div class="fw-bold text-success">+212% Pipeline</div>
+                    <small class="muted">$28.0k spend &middot; 4.2x ROAS</small>
+                  </div>
+                </div>
+
+                <div class="adm-client-mini-card">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="adm-client-icon" style="background:rgba(255,77,141,.12);color:#FF4D8D"><i class="bi bi-bag-check-fill"></i></div>
+                    <div>
+                      <div class="fw-bold">Craftly (DTC Retail)</div>
+                      <small class="muted">Meera Joshi &middot; Pod Bravo &middot; Shopping Ads</small>
+                    </div>
+                  </div>
+                  <div class="text-end">
+                    <div class="fw-bold text-success">4.8x Return</div>
+                    <small class="muted">$45.0k spend &middot; Active</small>
+                  </div>
+                </div>
+
+                <div class="adm-client-mini-card">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="adm-client-icon" style="background:rgba(59,43,240,.1);color:#3B2BF0"><i class="bi bi-heart-pulse-fill"></i></div>
+                    <div>
+                      <div class="fw-bold">Vitalis (Health Tech)</div>
+                      <small class="muted">Dr. Samuel Ross &middot; Pod Delta &middot; Lead Gen</small>
+                    </div>
+                  </div>
+                  <div class="text-end">
+                    <div class="fw-bold text-success">+31% Conv</div>
+                    <small class="muted">$22.5k spend &middot; 4.6x ROAS</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Real-Time Agency Event Stream (Live Audit) -->
+          <div class="col-lg-5">
+            <div class="adm-card">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="adm-card-title mb-0">Live Agency Operations Stream</h5>
+                <span class="badge bg-success-subtle text-success border border-success-subtle"><span class="cp-pulse" style="width:6px;height:6px"></span>Real-Time</span>
+              </div>
+              <div class="d-flex flex-column gap-3">
+                <div class="d-flex align-items-start gap-2 pb-2 border-bottom">
+                  <div class="audit-icon blue"><i class="bi bi-graph-up-arrow"></i></div>
+                  <div class="lh-sm">
+                    <div class="small fw-bold">Voltrix Lead Surge (+34 MQLs)</div>
+                    <small class="text-muted">Pod Alpha Google Ads campaign hit 4.8x ROAS</small>
+                    <div class="text-muted" style="font-size:0.7rem">12 mins ago</div>
+                  </div>
+                </div>
+
+                <div class="d-flex align-items-start gap-2 pb-2 border-bottom">
+                  <div class="audit-icon green"><i class="bi bi-shield-check"></i></div>
+                  <div class="lh-sm">
+                    <div class="small fw-bold">Vitalis Meta CAPI Tracking Verified</div>
+                    <small class="text-muted">100% match quality on server-side checkout events</small>
+                    <div class="text-muted" style="font-size:0.7rem">45 mins ago</div>
+                  </div>
+                </div>
+
+                <div class="d-flex align-items-start gap-2 pb-2 border-bottom">
+                  <div class="audit-icon blue"><i class="bi bi-cash-stack"></i></div>
+                  <div class="lh-sm">
+                    <div class="small fw-bold">Homestead Retainer Cleared ($12,000)</div>
+                    <small class="text-muted">Automatic invoice payment cleared via Stripe</small>
+                    <div class="text-muted" style="font-size:0.7rem">2 hours ago</div>
+                  </div>
+                </div>
+
+                <div class="d-flex align-items-start gap-2">
+                  <div class="audit-icon green"><i class="bi bi-megaphone-fill"></i></div>
+                  <div class="lh-sm">
+                    <div class="small fw-bold">Pod Bravo Launched TikTok Batch #4</div>
+                    <small class="text-muted">Brewline & Craftly ad creatives approved for live flight</small>
+                    <div class="text-muted" style="font-size:0.7rem">4 hours ago</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+<!-- ================= 2. CLIENT ROSTER SECTION ================= -->
+      <section id="adm-clients" class="adm-sec">
+        <div class="adm-card">
+          <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+            <div>
+              <h4 class="adm-card-title mb-1">38 Active Client Brand Portfolios</h4>
+              <p class="adm-card-sub mb-0">Direct multi-tenant control across all managed retainers and campaigns</p>
+            </div>
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <input type="text" id="admClientSearch" class="form-control form-control-sm" placeholder="Search client name, pod, lead..." style="width:240px">
+              <button class="btn btn-pink btn-sm" onclick="showAdminToast('Opening client onboarding wizard...');return false"><i class="bi bi-plus-lg me-1"></i>Add Client</button>
+            </div>
+          </div>
+
+          <!-- Filter Pills -->
+          <div class="d-flex gap-2 mb-3 flex-wrap" id="admClientFilters">
+            <button class="btn btn-sm btn-cobalt" data-filter="all">All Brands (38)</button>
+            <button class="btn btn-sm btn-outline-secondary" data-filter="saas">B2B SaaS (14)</button>
+            <button class="btn btn-sm btn-outline-secondary" data-filter="dtc">DTC Retail (12)</button>
+            <button class="btn btn-sm btn-outline-secondary" data-filter="services">Professional Services (8)</button>
+            <button class="btn btn-sm btn-outline-secondary" data-filter="health">HealthTech (4)</button>
+          </div>
+
+          <!-- Table -->
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" id="admClientTable">
+              <thead class="table-light">
+                <tr>
+                  <th>Brand & Industry</th>
+                  <th>Primary Contact</th>
+                  <th>Retainer Tier</th>
+                  <th>Monthly Ad Spend</th>
+                  <th>Performance / ROAS</th>
+                  <th>Assigned Pod</th>
+                  <th>Health Status</th>
+                  <th class="text-end">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-cat="saas">
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="adm-avatar-circle" style="background:#EFEEFF;color:#3B2BF0"><strong>V</strong></div>
+                      <div>
+                        <div class="fw-bold">Voltrix</div>
+                        <small class="muted">B2B Cloud SaaS</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Rhea Nair<br><small class="muted">rhea@voltrix.io</small></td>
+                  <td><span class="badge bg-primary">Growth ($3,400/mo)</span></td>
+                  <td><strong>$19,500</strong>/mo</td>
+                  <td><span class="text-success fw-bold">4.8x ROAS</span><br><small class="muted">+18.9% leads</small></td>
+                  <td>Pod Alpha (Marcus)</td>
+                  <td><span class="badge-s ok">Scaling</span></td>
+                  <td class="text-end">
+                    <button class="btn btn-sm btn-outline-primary" onclick="setDashboardRole('client');return false">View Dash</button>
+                  </td>
+                </tr>
+
+                <tr data-cat="services">
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="adm-avatar-circle" style="background:#e6fcf4;color:#0a8a5f"><strong>H</strong></div>
+                      <div>
+                        <div class="fw-bold">Homestead</div>
+                        <small class="muted">Real Estate & Living</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Daniel Park<br><small class="muted">daniel@homestead.co</small></td>
+                  <td><span class="badge bg-dark">Scale ($7,500/mo)</span></td>
+                  <td><strong>$28,000</strong>/mo</td>
+                  <td><span class="text-success fw-bold">4.2x ROAS</span><br><small class="muted">+212% pipeline</small></td>
+                  <td>Pod Delta (Anita)</td>
+                  <td><span class="badge-s ok">Optimal</span></td>
+                  <td class="text-end">
+                    <button class="btn btn-sm btn-outline-primary" onclick="showAdminToast('Opening Homestead Client Dash...');return false">View Dash</button>
+                  </td>
+                </tr>
+
+                <tr data-cat="dtc">
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="adm-avatar-circle" style="background:#fff0f6;color:#FF4D8D"><strong>C</strong></div>
+                      <div>
+                        <div class="fw-bold">Craftly</div>
+                        <small class="muted">Artisanal DTC Retail</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Meera Joshi<br><small class="muted">meera@craftly.store</small></td>
+                  <td><span class="badge bg-dark">Scale ($7,500/mo)</span></td>
+                  <td><strong>$45,000</strong>/mo</td>
+                  <td><span class="text-success fw-bold">4.8x ROAS</span><br><small class="muted">Shopping ads winner</small></td>
+                  <td>Pod Bravo (Karthik)</td>
+                  <td><span class="badge-s ok">Scaling</span></td>
+                  <td class="text-end">
+                    <button class="btn btn-sm btn-outline-primary" onclick="showAdminToast('Opening Craftly Client Dash...');return false">View Dash</button>
+                  </td>
+                </tr>
+
+                <tr data-cat="dtc">
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="adm-avatar-circle" style="background:#EFEEFF;color:#3B2BF0"><strong>N</strong></div>
+                      <div>
+                        <div class="fw-bold">Northwind</div>
+                        <small class="muted">Apparel & Goods</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Liam Chen<br><small class="muted">liam@northwind.shop</small></td>
+                  <td><span class="badge bg-primary">Growth ($3,400/mo)</span></td>
+                  <td><strong>$14,000</strong>/mo</td>
+                  <td><span class="text-warning fw-bold">3.2x ROAS</span><br><small class="muted">SEO audit in progress</small></td>
+                  <td>Pod Bravo (Karthik)</td>
+                  <td><span class="badge-s wait">Review</span></td>
+                  <td class="text-end">
+                    <button class="btn btn-sm btn-outline-primary" onclick="showAdminToast('Opening Northwind Dash...');return false">View Dash</button>
+                  </td>
+                </tr>
+
+                <tr data-cat="health">
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="adm-avatar-circle" style="background:#e6fcf4;color:#0a8a5f"><strong>V</strong></div>
+                      <div>
+                        <div class="fw-bold">Vitalis</div>
+                        <small class="muted">Health & Wellness</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Lina Haddad<br><small class="muted">lina@vitalis.health</small></td>
+                  <td><span class="badge bg-primary">Growth ($3,400/mo)</span></td>
+                  <td><strong>$22,500</strong>/mo</td>
+                  <td><span class="text-success fw-bold">2.1x Traffic</span><br><small class="muted">Organic rankings +94%</small></td>
+                  <td>Pod Delta (Anita)</td>
+                  <td><span class="badge-s ok">Scaling</span></td>
+                  <td class="text-end">
+                    <button class="btn btn-sm btn-outline-primary" onclick="showAdminToast('Opening Vitalis Dash...');return false">View Dash</button>
+                  </td>
+                </tr>
+
+                <tr data-cat="dtc">
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="adm-avatar-circle" style="background:#fff0f6;color:#FF4D8D"><strong>B</strong></div>
+                      <div>
+                        <div class="fw-bold">Brewline</div>
+                        <small class="muted">Beverage Subscription</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>Samira Roy<br><small class="muted">samira@brewline.co</small></td>
+                  <td><span class="badge bg-primary">Growth ($3,400/mo)</span></td>
+                  <td><strong>$32,000</strong>/mo</td>
+                  <td><span class="text-success fw-bold">5.1x ROAS</span><br><small class="muted">Meta retention flow</small></td>
+                  <td>Pod Bravo (Karthik)</td>
+                  <td><span class="badge-s ok">Optimal</span></td>
+                  <td class="text-end">
+                    <button class="btn btn-sm btn-outline-primary" onclick="showAdminToast('Opening Brewline Dash...');return false">View Dash</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 3. SPECIALIST PODS SECTION ================= -->
+      <section id="adm-pods" class="adm-sec">
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+          <div>
+            <h4 class="adm-card-title mb-1">4 Senior Delivery Pods</h4>
+            <p class="adm-card-sub mb-0">Dedicated pods of Strategist + Analyst + Creative managing client campaigns daily</p>
+          </div>
+          <button class="btn btn-pink btn-sm" onclick="showAdminToast('Adding Specialist Pod resource...');return false">
+            <i class="bi bi-person-plus-fill me-1"></i>Add Pod Specialist
+          </button>
+        </div>
+
+        <div class="row g-4">
+          <!-- Pod Alpha -->
+          <div class="col-md-6 col-xl-3">
+            <div class="adm-card h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge bg-primary">Pod Alpha</span>
+                <span class="badge-s ok">88% Capacity</span>
+              </div>
+              <h5 class="fw-bold mb-1">B2B SaaS & Enterprise</h5>
+              <small class="muted d-block mb-3">11 Brands · $420k Managed Spend</small>
+              <div class="border-top pt-3 mb-3">
+                <div class="small fw-bold mb-2">Pod Lead: Marcus Lee</div>
+                <div class="d-flex flex-column gap-2 small muted">
+                  <div><i class="bi bi-person-check text-success me-1"></i>Strategist: Alex Vance</div>
+                  <div><i class="bi bi-graph-up text-primary me-1"></i>Analyst: Sara Ahmed</div>
+                  <div><i class="bi bi-palette text-danger me-1"></i>Creative: Meera K.</div>
+                </div>
+              </div>
+              <div class="prog mb-2" style="height:6px"><div style="width:88%;background:#3B2BF0"></div></div>
+              <small class="muted">Voltrix, Apex Cloud, 9 others</small>
+            </div>
+          </div>
+
+          <!-- Pod Bravo -->
+          <div class="col-md-6 col-xl-3">
+            <div class="adm-card h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge bg-dark">Pod Bravo</span>
+                <span class="badge-s wait">94% Capacity</span>
+              </div>
+              <h5 class="fw-bold mb-1">High-Growth DTC Retail</h5>
+              <small class="muted d-block mb-3">12 Brands · $580k Managed Spend</small>
+              <div class="border-top pt-3 mb-3">
+                <div class="small fw-bold mb-2">Pod Lead: Karthik Raman</div>
+                <div class="d-flex flex-column gap-2 small muted">
+                  <div><i class="bi bi-person-check text-success me-1"></i>Strategist: Daniel Park</div>
+                  <div><i class="bi bi-graph-up text-primary me-1"></i>Analyst: Liam Chen</div>
+                  <div><i class="bi bi-palette text-danger me-1"></i>Creative: Maya Lin</div>
+                </div>
+              </div>
+              <div class="prog mb-2" style="height:6px"><div style="width:94%;background:#f59e0b"></div></div>
+              <small class="muted">Craftly, Brewline, Northwind, 9 others</small>
+            </div>
+          </div>
+
+          <!-- Pod Delta -->
+          <div class="col-md-6 col-xl-3">
+            <div class="adm-card h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge bg-success">Pod Delta</span>
+                <span class="badge-s ok">76% Capacity</span>
+              </div>
+              <h5 class="fw-bold mb-1">Services & HealthTech</h5>
+              <small class="muted d-block mb-3">9 Brands · $260k Managed Spend</small>
+              <div class="border-top pt-3 mb-3">
+                <div class="small fw-bold mb-2">Pod Lead: Anita Desai</div>
+                <div class="d-flex flex-column gap-2 small muted">
+                  <div><i class="bi bi-person-check text-success me-1"></i>Strategist: Lina Haddad</div>
+                  <div><i class="bi bi-graph-up text-primary me-1"></i>Analyst: Samira Roy</div>
+                  <div><i class="bi bi-palette text-danger me-1"></i>Creative: David O.</div>
+                </div>
+              </div>
+              <div class="prog mb-2" style="height:6px"><div style="width:76%;background:#2FD6A0"></div></div>
+              <small class="muted">Homestead, Vitalis, 7 others</small>
+            </div>
+          </div>
+
+          <!-- Pod Enterprise -->
+          <div class="col-md-6 col-xl-3">
+            <div class="adm-card h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge bg-danger">Pod Enterprise</span>
+                <span class="badge-s ok">82% Capacity</span>
+              </div>
+              <h5 class="fw-bold mb-1">Venture & Custom Scale</h5>
+              <small class="muted d-block mb-3">6 Brands · $160k Managed Spend</small>
+              <div class="border-top pt-3 mb-3">
+                <div class="small fw-bold mb-2">Pod Lead: Sara Ahmed</div>
+                <div class="d-flex flex-column gap-2 small muted">
+                  <div><i class="bi bi-person-check text-success me-1"></i>Strategist: Marcus Lee</div>
+                  <div><i class="bi bi-graph-up text-primary me-1"></i>Analyst: Elena Rostova</div>
+                  <div><i class="bi bi-palette text-danger me-1"></i>Creative: Jordan V.</div>
+                </div>
+              </div>
+              <div class="prog mb-2" style="height:6px"><div style="width:82%;background:#FF4D8D"></div></div>
+              <small class="muted">Skyroute Global, 5 others</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 4. CHANNELS & ROAS SECTION ================= -->
+      <section id="adm-channels" class="adm-sec">
+        <div class="row g-4 mb-4">
+          <div class="col-md-6 col-lg-3">
+            <div class="adm-card text-center p-4">
+              <div class="ico mx-auto mb-3" style="background:#3B2BF0"><i class="bi bi-google"></i></div>
+              <h5 class="fw-bold mb-1">Google Ads Network</h5>
+              <div class="h3 fw-bold text-primary mb-1">$620,000<small class="fs-6 fw-normal">/mo</small></div>
+              <div class="badge-s ok mb-3">4.8x Return on Ad Spend</div>
+              <small class="muted d-block">Search intent queries, Shopping Smart campaigns, YouTube ads.</small>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3">
+            <div class="adm-card text-center p-4">
+              <div class="ico mx-auto mb-3" style="background:#FF4D8D"><i class="bi bi-meta"></i></div>
+              <h5 class="fw-bold mb-1">Meta Advertising</h5>
+              <div class="h3 fw-bold mb-1" style="color:#FF4D8D">$480,000<small class="fs-6 fw-normal">/mo</small></div>
+              <div class="badge-s ok mb-3">4.1x Return on Ad Spend</div>
+              <small class="muted d-block">Instagram Reels, lookalike prospecting, catalog dynamic retargeting.</small>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3">
+            <div class="adm-card text-center p-4">
+              <div class="ico mx-auto mb-3" style="background:#0a66c2"><i class="bi bi-linkedin"></i></div>
+              <h5 class="fw-bold mb-1">LinkedIn Ads ABM</h5>
+              <div class="h3 fw-bold mb-1" style="color:#0a66c2">$180,000<small class="fs-6 fw-normal">/mo</small></div>
+              <div class="badge-s ok mb-3">$94.50 Qualified CPL</div>
+              <small class="muted d-block">Account-based targeting for B2B tech and enterprise buyers.</small>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3">
+            <div class="adm-card text-center p-4">
+              <div class="ico mx-auto mb-3" style="background:#2FD6A0;color:#0F0D2E"><i class="bi bi-tiktok"></i></div>
+              <h5 class="fw-bold mb-1">TikTok & Video Ads</h5>
+              <div class="h3 fw-bold mb-1" style="color:#0a8a5f">$140,500<small class="fs-6 fw-normal">/mo</small></div>
+              <div class="badge-s ok mb-3">3.9x Return on Ad Spend</div>
+              <small class="muted d-block">Creator-led short-form UGC creative and Spark ads testing.</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 5. GROWTH SIMULATOR LAB ================= -->
+      <section id="adm-lab" class="adm-sec">
+        <div class="adm-card p-4 p-lg-5">
+          <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+              <span class="tag mb-2">Agency Growth Lab</span>
+              <h3 class="fw-bold mb-3">Interactive Agency Portfolio Modeling</h3>
+              <p class="muted mb-4">Simulate agency revenue expansion, retainer billing pacing, and specialist pod staffing requirements.</p>
+
+              <div class="mb-4">
+                <label class="form-label d-flex justify-content-between fw-bold small">
+                  <span>Target Active Retainer Brands:</span>
+                  <span id="calcBrandsVal" class="text-primary fw-bold">38 Brands</span>
+                </label>
+                <input type="range" class="form-range" id="calcBrands" min="10" max="100" value="38">
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label d-flex justify-content-between fw-bold small">
+                  <span>Average Monthly Ad Spend Managed per Brand:</span>
+                  <span id="calcSpendVal" class="text-primary fw-bold">$37,500</span>
+                </label>
+                <input type="range" class="form-range" id="calcSpend" min="5000" max="150000" step="2500" value="37500">
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+              <div class="p-4 rounded-4" style="background:var(--ink);color:#fff">
+                <h5 class="fw-bold mb-4 text-white">Projected Agency Impact</h5>
+                <div class="row g-3">
+                  <div class="col-6">
+                    <small class="muted text-white-50">Projected Agency MRR</small>
+                    <div class="h2 fw-bold text-white mb-0" id="resMRR">$384,500</div>
+                  </div>
+                  <div class="col-6">
+                    <small class="muted text-white-50">Managed Ad Volume</small>
+                    <div class="h2 fw-bold text-white mb-0" id="resSpend">$1,425,000</div>
+                  </div>
+                  <div class="col-6">
+                    <small class="muted text-white-50">Specialist Pods Needed</small>
+                    <div class="h2 fw-bold text-white mb-0" id="resPods">4 Pods</div>
+                  </div>
+                  <div class="col-6">
+                    <small class="muted text-white-50">Est. Leads Delivered</small>
+                    <div class="h2 fw-bold text-white mb-0" id="resLeads">18,500/mo</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  </main><!-- .adm-main -->
+</div><!-- #adminDash -->
+
+
+<!-- Toast Notification -->
+<div id="adminToast" class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
+  <div class="toast align-items-center text-white bg-dark border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body" id="toastMessage">Action completed.</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="assets/js/main.js?v=42"></script>
+<script>
+  // All content buttons navigate to 404.html; only navigation, role switch, profile and log out stay functional
+  (function () {
+    var keepSelector = [
+      '[data-cpnav]',
+      '[data-admnav]',
+      '[data-dashboard-role]',
+      '#dashBurger',
+      '#dashDrawerClose',
+      '#dashDrawerBackdrop',
+      '.btn-close',
+      'a.brand'
+    ].join(',');
+
+    document.addEventListener('click', function (e) {
+      var trigger = e.target.closest('button, a, [role="button"]');
+      if (!trigger) return;
+      if (trigger.closest(keepSelector)) return;
+      if ((trigger.getAttribute('onclick') || '').indexOf('stackly_user') !== -1) return;
+      e.preventDefault();
+      e.stopPropagation();
+      try {
+        var adminDash = document.getElementById('adminDash');
+        var cpSec = document.querySelector('.cp-sec.on');
+        var admSec = document.querySelector('.adm-sec.on');
+        sessionStorage.setItem('stackly_back_state', JSON.stringify({
+          role: (adminDash && !adminDash.classList.contains('d-none')) ? 'admin' : 'client',
+          cpTab: cpSec ? cpSec.id : 'cp-overview',
+          admTab: admSec ? admSec.id : 'adm-overview',
+          url: location.href,
+          scroll: window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0,
+          ts: Date.now()
+        }));
+      } catch (err) {}
+      window.location.href = '404.html';
+    }, true);
+  })();
+
+  function showAdminToast(msg) {
+    const toastEl = document.getElementById('adminToast');
+    const msgEl = document.getElementById('toastMessage');
+    if (msgEl) msgEl.textContent = msg;
+    if (window.bootstrap && toastEl) {
+      const toast = new bootstrap.Toast(toastEl.querySelector('.toast'));
+      toast.show();
+    }
+  }
+</script>
+</body>
+</html>
